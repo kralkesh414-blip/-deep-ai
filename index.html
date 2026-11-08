@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b16">
+<meta name="description" content="DEEP AI - 13 özel yapay zekâ asistanı ile tanış.">
+<title>DEEP AI - Intelligent AI Platform</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+--bg:#080b16;
+--panel:#101629;
+--card:#141d33;
+--blue:#438cff;
+--purple:#8258ff;
+--text:#f4f6ff;
+--muted:#929db5;
+--border:#25304a;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+font-family:Arial,sans-serif;
+min-height:100vh;
+}
+
+button,input{font:inherit}
+
+button{cursor:pointer}
+
+.layout{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:245px;
+background:#0d1221;
+border-right:1px solid var(--border);
+padding:25px 17px;
+position:fixed;
+inset:0 auto 0 0;
+z-index:5;
+}
+
+.logo{
+font-size:27px;
+font-weight:900;
+letter-spacing:2px;
+margin-bottom:35px;
+}
+
+.logo span{color:var(--blue)}
+
+.nav-title{
+color:var(--muted);
+font-size:11px;
+margin:25px 10px 12px;
+}
+
+.nav button{
+width:100%;
+padding:13px;
+border:0;
+border-radius:10px;
+color:#bdc8dc;
+background:transparent;
+text-align:left;
+margin-bottom:5px;
+}
+
+.nav button:hover,.nav button.active{
+background:#1c2b49;
+color:white;
+}
+
+.main{
+margin-left:245px;
+width:calc(100% - 245px);
+padding:28px 35px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:35px;
+}
+
+.status{
+color:#61dba0;
+font-size:12px;
+}
+
+.profile{
+background:var(--card);
+padding:10px 16px;
+border:1px solid var(--border);
+border-radius:12px;
+}
+
+.hero{
+background:linear-gradient(115deg,#142b55,#25204e);
+border:1px solid #334b7c;
+border-radius:20px;
+padding:35px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+margin-bottom:35px;
+}
+
+.hero h1{
+font-size:36px;
+margin-bottom:12px;
+}
+
+.hero p{
+color:#c0cbe1;
+line-height:1.7;
+}
+
+.hero button{
+background:#438cff;
+color:white;
+border:0;
+padding:13px 23px;
+border-radius:10px;
+margin-top:20px;
+font-weight:bold;
+}
+
+.hero-icon{
+font-size:85px;
+}
+
+.section-title{
+font-size:21px;
+margin-bottom:8px;
+}
+
+.section-sub{
+color:var(--muted);
+font-size:13px;
+margin-bottom:22px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:15px;
+}
+
+.character{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:16px;
+padding:20px 12px;
+text-align:center;
+transition:.2s;
+cursor:pointer;
+min-width:0;
+}
+
+.character:hover{
+transform:translateY(-4px);
+border-color:var(--blue);
+background:#192743;
+}
+
+.avatar{
+width:75px;
+height:75px;
+border-radius:22px;
+margin:0 auto 13px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:39px;
+background:linear-gradient(135deg,#273c70,#563e91);
+border:1px solid #5369a0;
+}
+
+.character h3{
+font-size:15px;
+margin-bottom:7px;
+}
+
+.character p{
+color:var(--muted);
+font-size:11px;
+line-height:1.5;
+}
+
+.chat-panel{
+display:none;
+background:var(--panel);
+border:1px solid var(--border);
+border-radius:18px;
+margin-top:30px;
+overflow:hidden;
+}
+
+.chat-header{
+padding:18px;
+border-bottom:1px solid var(--border);
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.chat-header button{
+background:#24314c;
+color:white;
+border:0;
+padding:9px 13px;
+border-radius:8px;
+}
+
+.messages{
+height:340px;
+overflow-y:auto;
+padding:20px;
+}
+
+.message{
+padding:13px 16px;
+border-radius:13px;
+margin-bottom:13px;
+max-width:85%;
+line-height:1.6;
+font-size:14px;
+white-space:pre-wrap;
+}
+
+.bot{
+background:#202b45;
+}
+
+.user{
+background:#28569a;
+margin-left:auto;
+}
+
+.chat-input{
+display:flex;
+padding:15px;
+gap:10px;
+border-top:1px solid var(--border);
+}
+
+.chat-input input{
+flex:1;
+min-width:0;
+padding:14px;
+border-radius:10px;
+background:#080e1d;
+border:1px solid var(--border);
+color:white;
+outline:none;
+}
+
+.chat-input button{
+border:0;
+background:var(--blue);
+color:white;
+padding:0 20px;
+border-radius:10px;
+}
+
+.footer{
+margin-top:45px;
+text-align:center;
+color:#65718a;
+font-size:12px;
+}
+
+@media(max-width:1000px){
+.grid{grid-template-columns:repeat(3,1fr)}
+}
+
+@media(max-width:650px){
+.sidebar{
+position:static;
+width:100%;
+height:auto;
+border-right:0;
+border-bottom:1px solid var(--border);
+padding:15px;
+}
+.logo{margin-bottom:15px}
+.nav{display:flex;overflow-x:auto;gap:5px}
+.nav-title{display:none}
+.nav button{white-space:nowrap;width:auto}
+.layout{display:block}
+.main{margin:0;width:100%;padding:18px 13px}
+.topbar{margin-bottom:20px}
+.hero{padding:22px}
+.hero h1{font-size:25px}
+.hero-icon{font-size:55px}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.character{padding:15px 8px}
+.avatar{width:65px;height:65px}
+}
+
+@media(max-width:360px){
+.grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+
+<div class="logo">DEEP<span> AI</span></div>
+
+<div class="nav-title">ANA MENÜ</div>
+
+<div class="nav">
+<button class="active" onclick="showHome()">⌂ Ana Sayfa</button>
+<button onclick="showChatHistory()">▤ Sohbetlerim</button>
+<button onclick="showFavorites()">★ Favorilerim</button>
+<button onclick="showHome()">✦ Keşfet</button>
+<button onclick="showSettings()">⚙ Ayarlar</button>
+</div>
+
+<div class="nav-title">SİSTEM</div>
+
+<div class="nav">
+<button onclick="showAbout()">ⓘ Hakkımızda</button>
+</div>
+
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+<div>
+<div class="status">● DEEP AI PLATFORM</div>
+<small style="color:#929db5">Akıllı asistanların dünyası</small>
+</div>
+<div class="profile">👤 Misafir</div>
+</header>
+
+<section class="hero">
+
+<div>
+<h1>Welcome to DEEP AI</h1>
+<p>13 özel yapay zekâ. Tek platform.<br>
+Bilgiye ulaşmanın yeni yolu.</p>
+<button onclick="document.getElementById('characters').scrollIntoView({behavior:'smooth'})">
+Asistanları Keşfet →
+</button>
+</div>
+
+<div class="hero-icon">🤖</div>
+
+</section>
+
+<section id="characters">
+
+<h2 class="section-title">Yapay Zekâ Asistanları</h2>
+<p class="section-sub">Sana uygun yapay zekâyı seç ve tanış.</p>
+
+<div class="grid" id="characterGrid"></div>
+
+</section>
+
+<section class="chat-panel" id="chatPanel">
+
+<div class="chat-header">
+<div id="chatTitle">DEEP AI</div>
+<button onclick="closeChat()">Kapat ✕</button>
+</div>
+
+<div class="messages" id="messages"></div>
+
+<form class="chat-input" id="chatForm">
+<input id="userInput" placeholder="Mesajını yaz..." autocomplete="off">
+<button type="submit">Gönder ➤</button>
+</form>
+
+</section>
+
+<div class="footer">
+DEEP AI © 2026 — Intelligent AI Platform
+<br><br>
+13 Specialized AI Assistants
+</div>
+
+</main>
+</div>
+
+<script>
+
+const characters=[
+
+{name:"DEEP",emoji:"🤖",role:"Genel yapay zekâ asistanı"},
+{name:"JARVIS",emoji:"🦾",role:"Teknoloji ve bilgisayar uzmanı"},
+{name:"MERLIN",emoji:"🧙",role:"Tarih ve medeniyet uzmanı"},
+{name:"MOVI",emoji:"🎬",role:"Film ve eğlence uzmanı"},
+{name:"VICTOR",emoji:"⚖️",role:"Hukuk uzmanı"},
+{name:"SEE",emoji:"👁️",role:"Görüntü analiz uzmanı"},
+{name:"ASHIL",emoji:"🏛️",role:"Mitoloji uzmanı"},
+{name:"AORTA",emoji:"🧬",role:"Biyoloji ve sağlık bilgisi"},
+{name:"PSYCHO",emoji:"🧠",role:"Psikoloji uzmanı"},
+{name:"NOTA",emoji:"🎵",role:"Müzik uzmanı"},
+{name:"TEACHER NIGORA",emoji:"📚",role:"Eğitim ve öğretim"},
+{name:"ULTRON",emoji:"🔴",role:"Özel kırmızı gözlü robot"},
+{name:"YURTSEVER",emoji:"🦸",role:"Edebiyat ve şiir uzmanı"}
+
+];
+
+const grid=document.getElementById("characterGrid");
+
+characters.forEach((c,i)=>{
+
+const card=document.createElement("div");
+card.className="character";
+
+card.innerHTML=`
+<div class="avatar">${c.emoji}</div>
+<h3>${c.name}</h3>
+<p>${c.role}</p>
+`;
+
+card.onclick=()=>openChat(i);
+
+grid.appendChild(card);
+
+});
+
+let selected=null;
+
+function openChat(index){
+
+selected=characters[index];
+
+document.getElementById("chatPanel").style.display="block";
+
+document.getElementById("chatTitle").textContent=
+selected.emoji+" "+selected.name;
+
+document.getElementById("messages").innerHTML=`
+<div class="message bot">
+Merhaba! Ben ${selected.name}.
+
+Uzmanlık alanım: ${selected.role}
+
+Seninle tanışmaya hazırım.
+</div>`;
+
+document.getElementById("chatPanel").scrollIntoView({behavior:"smooth"});
+
+}
+
+function closeChat(){
+document.getElementById("chatPanel").style.display="none";
+}
+
+document.getElementById("chatForm").addEventListener("submit",async function(e){
+
+e.preventDefault();
+
+const input=document.getElementById("userInput");
+const text=input.value.trim();
+
+if(!text || !selected)return;
+
+addMessage(text,"user");
+input.value="";
+
+addMessage("AI bağlantısı henüz yapılandırılmadı. Gerçek cevaplar için güvenli API bağlantısı kurulması gerekiyor.","bot");
+
+});
+
+function addMessage(text,type){
+
+const msg=document.createElement("div");
+msg.className="message "+type;
+msg.textContent=text;
+
+const box=document.getElementById("messages");
+box.appendChild(msg);
+box.scrollTop=box.scrollHeight;
+
+}
+
+function showHome(){
+document.getElementById("characters").scrollIntoView({behavior:"smooth"});
+}
+
+function showChatHistory(){
+alert("Sohbet geçmişi için kullanıcı hesabı ve veritabanı bağlantısı kurulacak.");
+}
+
+function showFavorites(){
+alert("Favoriler özelliği hesap sistemiyle etkinleştirilecek.");
+}
+
+function showSettings(){
+alert("Kullanıcı ayarları üyelik sistemiyle etkinleştirilecek.");
+}
+
+function showAbout(){
+alert("DEEP AI - 13 özel yapay zekâ asistanı.");
+}
+
+</script>
+
+</body>
+</html>
